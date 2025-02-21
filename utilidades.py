@@ -5,3 +5,6 @@ def limpiar_pantalla():
 
 def separador():
     print('-'*40)
+
+def generador_id_unico():
+    pass
