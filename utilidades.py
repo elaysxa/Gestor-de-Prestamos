@@ -8,6 +8,9 @@ def limpiar_pantalla():
 def separador():
     print('-'*40)
 
+def pausar():
+    input('Preseione para continuar')
+
 def generador_id_unico():
     #Genera una cadena de string con numeros de 5 digitos
     caracteres =  string.digits
