@@ -8,21 +8,20 @@ def agregar_prestamo():
     print('Agregar nuevo prestamo')
     separador()
     ide = generador_id_unico()
-    id = print('Identificador: ', ide)
+    id = int(ide)
+    print('Identificador: ', ide)
     nombre = input(('Ingrese el nombre del prestatario: '))
     monto = float(input('Ingrese el monto del prestamo: '))
-    fecha = input(('Ingrese la fecha del prestamo: '))
+    fecha = input(('Ingrese la fecha del prestamo: \n'))
     #Agregar el prestamo al diccionario
     prestamo = {
-        'Id': ide,
+        'Id': id,
         'Nombre': nombre,
         'Monto': monto,
         'Fecha': fecha
     }
     #Guardarlos en el json
     ps.guardar_prestamo(prestamo)
-    ps.guardar_datos()
-    print('Prestamo registrado con exito ') 
     pausar()
 
 def modificar_prestamo():
