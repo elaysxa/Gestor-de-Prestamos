@@ -2,6 +2,9 @@ import json
 
 prestamos = []
 
+def datos():
+    return prestamos
+
 def guardar_prestamo(prestamo):
     prestamos.append(prestamo)
     guardar_datos()  # Guardar los datos después de agregar el nuevo préstamo
