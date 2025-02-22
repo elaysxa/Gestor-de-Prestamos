@@ -20,8 +20,7 @@ def cargar_datos():
         with open("data/prestamos.json", 'r') as archivo:
             prestamos = json.load(archivo)
     except FileNotFoundError:
-        return []
         # Crear un archivo vacío si no existe
-    guardar_datos()
+        guardar_datos()
     
 cargar_datos()  

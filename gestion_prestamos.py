@@ -36,6 +36,26 @@ def eliminar_prestamo():
     separador()
     print('ELIMINAR PRESTAMO')
     separador()
+    id = int(input('Ingrese el Identificador del prestamo a eliminar: \n'))
+    
+    prestamo_encontrado = False
+    
+    for prestamo in ps.datos():
+        if prestamo['Id'] == id:
+            prestamo_encontrado = True
+            confirmacion = input(f"Esta seguro de que quiere borrar el prestamo con el identificador {prestamo['Id']} (S/N): ")
+            if confirmacion.lower() == 's':
+                ps.datos().remove(prestamo)
+                separador()
+                print('Prestamo eliminado con exito')
+                separador()
+            else:
+                print('Eliminacion cancelada')
+                break
+    if not prestamo_encontrado:
+        print('No existe ningun prestamo con este identificador')
+    ps.guardar_datos()
+    pausar()
 
 def listar_prestamos():
     limpiar_pantalla()
