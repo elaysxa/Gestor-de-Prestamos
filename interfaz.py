@@ -1,5 +1,5 @@
 from utilidades import limpiar_pantalla, separador, pausar
-from gestion_prestamos import agregar_prestamo, modificar_prestamo, consultar_prestamo, eliminar_prestamo
+from gestion_prestamos import agregar_prestamo, modificar_prestamo, consultar_prestamo, eliminar_prestamo, consultar_prestamo, buscar_prestamo_id, buscar_prestamo_nombre
 
 def menu_principal():
     while True:
@@ -32,5 +32,4 @@ def menu_principal():
                 eliminar_prestamo()
             case 5:
                 print('Saliendo del programa')
-                break
-            
+                break                
