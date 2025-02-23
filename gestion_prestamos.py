@@ -84,9 +84,28 @@ def listar_prestamos():
             print(f"Hasta la fecha de: {prestamos['Fecha']}")  
             separador()
         pausar() 
-
+    
 def buscar_prestamo_id():
-    print('ID')
+    limpiar_pantalla()
+    separador()
+    print('BUSCAR PRESTAMO POR ID')
+    separador()
+    id = pedir_datos('Ingrese el Id del prestamo: ')
+    separador()
+    id = validar_entero(id)
+    prestamo_encontrado = False
+    for prestamo in ps.datos():
+        if prestamo['Id'] == id :
+            prestamo_encontrado = True
+            print(f"Prestamo ID: {prestamo['Id']}")
+            print(f"A nombre de: {prestamo['Nombre']}")
+            print(f"Por el monto de: {prestamo['Monto']}")
+            print(f"Hasta la fecha de: {prestamo['Fecha']}")  
+            separador()
+            pausar()
+    if not prestamo_encontrado:
+        print('El prestamo no existe')
+        pausar()
 
 def buscar_prestamo_nombre():
     print('nombre')
