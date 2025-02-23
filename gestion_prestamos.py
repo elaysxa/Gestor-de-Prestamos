@@ -10,22 +10,23 @@ def agregar_prestamo():
     id = int(generador_id_unico())
     print('Identificador: ', id)
 
-    nombre = pedir_datos('Ingrese el nombre del prestatario: ')
+    nombre =  pedir_datos('Ingrese el nombre del prestatario: ').upper()
+    
     monto = pedir_datos('Ingrese el monto del prestamo: ')
     #Verficar que monto sea un float
-    Monto = validar_monto(monto)
+
+    monto = validar_monto(monto)
     fecha = pedir_datos('Ingrese la fecha del prestamo: ')
     separador()
-
     #Verificar si el Id de prestamo  ya existe
     while any(d['Id'] == id for d in ps.prestamos):
         id = int(generador_id_unico())
-
+    
     #Agregar el prestamo al diccionario
     prestamo = {
         'Id': id,
         'Nombre': nombre,
-        'Monto': Monto,
+        'Monto': monto,
         'Fecha': fecha
     }
     ps.guardar_prestamo(prestamo)
@@ -117,8 +118,26 @@ def buscar_prestamo_id():
         pausar()
 
 def buscar_prestamo_nombre():
-    print('nombre')
+    limpiar_pantalla()
+    separador()
+    print('BUSCAR PRESTAMO POR NOMBRE')
+    separador()
+    nombre = pedir_datos('Ingrese el nombre del prestatario: ')
+    prestamo_encontrado = False
+    for prestamos in ps.datos():
+        if prestamos['Nombre'] == nombre:
+            prestamo_encontrado = True
+            print(f"Prestamo ID: {prestamos['Id']}")
+            print(f"A nombre de: {prestamos['Nombre']}")
+            print(f"Por el monto de: {prestamos['Monto']}")
+            print(f"Hasta la fecha de: {prestamos['Fecha']}")  
+            separador()
+            pausar() 
 
+    if not prestamo_encontrado:
+        print('Prestamo no encontrado ')
+        pausar()
+            
 def consultar_prestamo():
     while True:
         limpiar_pantalla()
