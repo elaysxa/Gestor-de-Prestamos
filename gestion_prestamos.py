@@ -15,7 +15,7 @@ def agregar_prestamo():
     #Verficar que monto sea un float
     Monto = validar_monto(monto)
     fecha = pedir_datos('Ingrese la fecha del prestamo: ')
-   
+    separador()
 
     #Verificar si el Id de prestamo  ya existe
     while any(d['Id'] == id for d in ps.prestamos):
@@ -28,12 +28,26 @@ def agregar_prestamo():
         'Monto': Monto,
         'Fecha': fecha
     }
-    #Guardarlos en el json
     ps.guardar_prestamo(prestamo)
-    pausar()
+    limpiar_pantalla()
+    separador()
+    print('COMPROBANTE DE PRESTAMO')
+    separador()
+    mostrar_prestamo_info(id)
+    #Guardarlos en el json
 
 def modificar_prestamo():
     pass
+
+def mostrar_prestamo_info(id):
+    for prestamo in ps.datos():
+        if prestamo['Id'] == id:
+            print(f"Prestamo ID: {prestamo['Id']}")
+            print(f"A nombre de: {prestamo['Nombre']}")
+            print(f"Por el monto de: {prestamo['Monto']}")
+            print(f"Hasta la fecha de: {prestamo['Fecha']}")  
+            separador()
+            pausar()
 
 def eliminar_prestamo():
     limpiar_pantalla()
@@ -97,12 +111,7 @@ def buscar_prestamo_id():
     for prestamo in ps.datos():
         if prestamo['Id'] == id :
             prestamo_encontrado = True
-            print(f"Prestamo ID: {prestamo['Id']}")
-            print(f"A nombre de: {prestamo['Nombre']}")
-            print(f"Por el monto de: {prestamo['Monto']}")
-            print(f"Hasta la fecha de: {prestamo['Fecha']}")  
-            separador()
-            pausar()
+            mostrar_prestamo_info(id)
     if not prestamo_encontrado:
         print('El prestamo no existe')
         pausar()
