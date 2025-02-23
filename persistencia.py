@@ -23,4 +23,3 @@ def cargar_datos():
         # Crear un archivo vacío si no existe
         guardar_datos()
     
-cargar_datos()  
