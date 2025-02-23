@@ -1,4 +1,4 @@
-from utilidades import limpiar_pantalla, separador, generador_id_unico, pausar
+from utilidades import limpiar_pantalla, separador, generador_id_unico, pausar, validar_entero, validar_monto, pedir_datos
 import persistencia as ps
 
 def agregar_prestamo():
@@ -9,9 +9,13 @@ def agregar_prestamo():
 
     id = int(generador_id_unico())
     print('Identificador: ', id)
-    nombre = input(('Ingrese el nombre del prestatario: '))
-    monto = float(input('Ingrese el monto del prestamo: '))
-    fecha = input(('Ingrese la fecha del prestamo: '))
+
+    nombre = pedir_datos('Ingrese el nombre del prestatario: ')
+    monto = pedir_datos('Ingrese el monto del prestamo: ')
+    #Verficar que monto sea un float
+    Monto = validar_monto(monto)
+    fecha = pedir_datos('Ingrese la fecha del prestamo: ')
+   
 
     #Verificar si el Id de prestamo  ya existe
     while any(d['Id'] == id for d in ps.prestamos):
@@ -21,7 +25,7 @@ def agregar_prestamo():
     prestamo = {
         'Id': id,
         'Nombre': nombre,
-        'Monto': monto,
+        'Monto': Monto,
         'Fecha': fecha
     }
     #Guardarlos en el json
@@ -36,26 +40,34 @@ def eliminar_prestamo():
     separador()
     print('ELIMINAR PRESTAMO')
     separador()
-    id = int(input('Ingrese el Identificador del prestamo a eliminar: \n'))
+
+    identificador = pedir_datos('Ingrese el Identificados del prestamos a eliminar: ')
     
-    prestamo_encontrado = False
+    #Validar que el id ingresado es un numero
+    id = validar_entero(identificador)
     
-    for prestamo in ps.datos():
-        if prestamo['Id'] == id:
-            prestamo_encontrado = True
-            confirmacion = input(f"Esta seguro de que quiere borrar el prestamo con el identificador {prestamo['Id']} (S/N): ")
-            if confirmacion.lower() == 's':
-                ps.datos().remove(prestamo)
-                separador()
-                print('Prestamo eliminado con exito')
-                separador()
-            else:
-                print('Eliminacion cancelada')
-                break
-    if not prestamo_encontrado:
-        print('No existe ningun prestamo con este identificador')
+    if id is None:
+        pass
+    else:
+        prestamo_encontrado = False
+        for prestamo in ps.datos():
+            if prestamo['Id'] == id:
+                prestamo_encontrado = True
+                confirmacion = input(f"Esta seguro de que quiere borrar el prestamo con el identificador {prestamo['Id']} Presione (S) para confirmar: ")
+                if confirmacion.lower() == 's':
+                    ps.datos().remove(prestamo)
+                    separador()
+                    print('Prestamo eliminado con exito')
+                    separador()
+                else:
+                    print('Eliminacion cancelada')
+                    pausar()
+                    break
+        if not prestamo_encontrado:
+            print('No existe ningun prestamo con este identificador')
+            pausar()
+
     ps.guardar_datos()
-    pausar()
 
 def listar_prestamos():
     limpiar_pantalla()
@@ -90,13 +102,10 @@ def consultar_prestamo():
         print('3. Buscar prestamo por por nombre')
         print('4. Regresar al menu principal')
         separador()
-    # Verificar que op sea un numero
-        try:
-            op = int(input('Ingrese la opcion deseada: '))
-        except ValueError:
-            print("Entrada invalida")  
-            pausar()
-            continue  
+
+        opcion = pedir_datos('Ingrese la opcion deseada: ')
+        # Verificar que op sea un numero
+        op = validar_entero(opcion)
         
         match op:
             case 1:
@@ -109,3 +118,5 @@ def consultar_prestamo():
                 print('Regresando al menu principal')
                 pausar()
                 break
+            case _ :
+                print('Opcion invalida') 

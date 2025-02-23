@@ -1,4 +1,4 @@
-from utilidades import limpiar_pantalla, separador, pausar
+from utilidades import limpiar_pantalla, separador, pausar, validar_entero
 from gestion_prestamos import agregar_prestamo, modificar_prestamo, consultar_prestamo, eliminar_prestamo, consultar_prestamo
 
 def menu_principal():
@@ -13,14 +13,9 @@ def menu_principal():
         print('4. Eliminar prestamo')
         print('5. Salir')
         separador()
+        opcion = input('Ingrese la opcion deseada: ')
         # Verificar que op sea un numero
-        try:
-            op = int(input('Ingrese la opcion deseada: '))
-        except ValueError:
-            print("Entrada invalida")  
-            pausar()
-            continue  
-        
+        op = validar_entero(opcion)
         match op:
             case 1:
                 agregar_prestamo()
@@ -32,4 +27,6 @@ def menu_principal():
                 eliminar_prestamo()
             case 5:
                 print('Saliendo del programa')
-                break                
+                break 
+            case _ :
+                print('Opcion invalida')               
