@@ -10,12 +10,13 @@ def guardar_prestamo(prestamo):
     guardar_datos()  
     return 'Prestamo agregado existosamente'
 
-def modificar_prestamos(id, nombre, monto, fecha):
+def modificar_prestamos(id, nombre, monto, fecha, estado):
     for prestamo in prestamos:
         if prestamo['Id'] == id:
             prestamo['Nombre'] = nombre
             prestamo['Monto'] = monto
             prestamo['Fecha'] = fecha
+            prestamo['Estado'] = estado
             guardar_datos()
 
 def guardar_datos():
