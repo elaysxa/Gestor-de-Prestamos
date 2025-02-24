@@ -1,5 +1,6 @@
-from utilidades import limpiar_pantalla, separador, generador_id_unico, pausar, validar_entero, validar_monto, pedir_datos
+from utilidades import limpiar_pantalla, separador, generador_id_unico, pausar, validar_entero, validar_monto, pedir_datos, validar_fecha
 import persistencia as ps
+from datetime import date
 
 def agregar_prestamo():
     limpiar_pantalla()
@@ -14,9 +15,11 @@ def agregar_prestamo():
     
     monto = pedir_datos('Ingrese el monto del prestamo: ')
     #Verficar que monto sea un float
-
     monto = validar_monto(monto)
-    fecha = pedir_datos('Ingrese la fecha del prestamo: ')
+
+    fecha = pedir_datos('Ingrese la fecha del prestamo (DD/MM/YYYY): ')
+    fecha = validar_fecha(fecha)
+    
     separador()
     #Verificar si el Id de prestamo  ya existe
     while any(d['Id'] == id for d in ps.prestamos):
@@ -48,6 +51,9 @@ def modificar_prestamo():
    
    id = pedir_datos('Ingrese el Id del prestamo que desea modificar: ')
    id = validar_entero(id)
+   separador()
+   if id is None:
+       pass
    prestamo_encontrado = False
    for prestamo in ps.datos():
        if prestamo['Id'] == id:
@@ -65,7 +71,6 @@ def modificar_prestamo():
              print('3. Modificar fecha')
              print('4. Modificar estado')
              print('5. Guardar y salir')
-             print('6. Regresar al menu principal')
              separador()
              op = pedir_datos('Ingrese la opcion deseada: ')
              separador()
@@ -81,6 +86,7 @@ def modificar_prestamo():
                      prestamo ['Monto'] = monto        
              if op == 3:
                  fecha = input('Ingrese la nueva fecha: ')
+                 fecha = validar_fecha(fecha)
                  if fecha:
                      prestamo ['Fecha'] = fecha  
              if op ==4:
@@ -91,8 +97,11 @@ def modificar_prestamo():
                 ps.modificar_prestamos(id, prestamo['Nombre'], prestamo['Monto'], prestamo['Fecha'], prestamo['Estado'])
                 print('Prestamo guardado exitosamente ')
                 pausar()           
-                break 
-             
+                break
+   if not prestamo_encontrado:
+        print('Prestamo no encontrado')
+        pausar()
+                    
                    
 def mostrar_prestamo_info(id):
     for prestamo in ps.datos():
@@ -179,7 +188,8 @@ def buscar_prestamo_nombre():
     separador()
     print('BUSCAR PRESTAMO POR NOMBRE')
     separador()
-    nombre = pedir_datos('Ingrese el nombre del prestatario: ').capitalize()
+    nombre = pedir_datos('Ingrese el nombre del prestatario: ').upper()
+    separador()
     prestamo_encontrado = False
     for prestamos in ps.datos():
         if prestamos['Nombre'] == nombre:
