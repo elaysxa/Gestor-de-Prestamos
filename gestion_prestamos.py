@@ -52,55 +52,57 @@ def modificar_prestamo():
    id = pedir_datos('Ingrese el Id del prestamo que desea modificar: ')
    id = validar_entero(id)
    separador()
+
    if id is None:
-       pass
-   prestamo_encontrado = False
-   for prestamo in ps.datos():
-       if prestamo['Id'] == id:
-           prestamo_encontrado = True
-           mostrar_prestamo_info(id)
-           limpiar_pantalla()
-           separador()
-           while True:
-             limpiar_pantalla()
-             separador()
-             print('MODO EDICION')
-             separador()
-             print('1. Modificar el nombre del prestatario')
-             print('2. Modificar monto')
-             print('3. Modificar fecha')
-             print('4. Modificar estado')
-             print('5. Guardar y salir')
-             separador()
-             op = pedir_datos('Ingrese la opcion deseada: ')
-             separador()
-             op = validar_entero(op)
-             if op == 1:
-                 nombre = input('Ingrese el nuevo nombre: ').upper()
-                 if nombre:
-                     prestamo ['Nombre'] = nombre
-             if op ==2:
-                 monto = input('Ingrese el nuevo monto: ')
-                 monto = validar_monto(monto)
-                 if monto:
-                     prestamo ['Monto'] = monto        
-             if op == 3:
-                 fecha = input('Ingrese la nueva fecha: ')
-                 fecha = validar_fecha(fecha)
-                 if fecha:
-                     prestamo ['Fecha'] = fecha  
-             if op ==4:
-                 estado = input('Ingrese el nuevo estado: ').upper()
-                 if estado:
-                     prestamo ['Estado'] = estado     
-             if op == 5:
-                ps.modificar_prestamos(id, prestamo['Nombre'], prestamo['Monto'], prestamo['Fecha'], prestamo['Estado'])
-                print('Prestamo guardado exitosamente ')
-                pausar()           
-                break
-   if not prestamo_encontrado:
-        print('Prestamo no encontrado')
-        pausar()
+        pass    
+   else:
+        prestamo_encontrado = False
+        for prestamo in ps.datos():
+            if prestamo['Id'] == id:
+                prestamo_encontrado = True
+                mostrar_prestamo_info(id)
+                limpiar_pantalla()
+                separador()
+                while True:
+                    limpiar_pantalla()
+                    separador()
+                    print('    MODO EDICION    ')
+                    separador()
+                    print('1. Modificar el nombre del prestatario')
+                    print('2. Modificar monto')
+                    print('3. Modificar fecha')
+                    print('4. Modificar estado')
+                    print('5. Guardar y salir')
+                    separador()
+                    op = pedir_datos('Ingrese la opcion deseada: ')
+                    separador()
+                    op = validar_entero(op)
+                    if op == 1:
+                        nombre = pedir_datos('Ingrese el nuevo nombre: ').upper()
+                        if nombre:
+                            prestamo ['Nombre'] = nombre
+                    if op ==2:
+                        monto = pedir_datos('Ingrese el nuevo monto: ')
+                        monto = validar_monto(monto)
+                        if monto:
+                            prestamo ['Monto'] = monto        
+                    if op == 3:
+                        fecha = pedir_datos('Ingrese la nueva fecha: ')
+                        fecha = validar_fecha(fecha)
+                        if fecha:
+                            prestamo ['Fecha'] = fecha  
+                    if op == 4:
+                        estado = pedir_datos('Ingrese el nuevo estado: ').upper()
+                        if estado:
+                            prestamo ['Estado'] = estado     
+                    if op == 5:
+                        ps.modificar_prestamos(id, prestamo['Nombre'], prestamo['Monto'], prestamo['Fecha'], prestamo['Estado'])
+                        print('Prestamo guardado exitosamente ')
+                        pausar()           
+                        break
+        if not prestamo_encontrado:
+            print('Prestamo no encontrado')
+            pausar()
                     
                    
 def mostrar_prestamo_info(id):
