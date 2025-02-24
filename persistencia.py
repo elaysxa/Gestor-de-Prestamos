@@ -7,8 +7,16 @@ def datos():
 
 def guardar_prestamo(prestamo):
     prestamos.append(prestamo)
-    guardar_datos()  # Guardar los datos después de agregar el nuevo préstamo
+    guardar_datos()  
     return 'Prestamo agregado existosamente'
+
+def modificar_prestamos(id, nombre, monto, fecha):
+    for prestamo in prestamos:
+        if prestamo['Id'] == id:
+            prestamo['Nombre'] = nombre
+            prestamo['Monto'] = monto
+            prestamo['Fecha'] = fecha
+            guardar_datos()
 
 def guardar_datos():
     with open('data/prestamos.json', 'w') as archivo:
