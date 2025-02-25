@@ -16,10 +16,19 @@ def agregar_prestamo():
     monto = pedir_datos('Ingrese el monto del prestamo: ')
     #Verficar que monto sea un float
     monto = validar_monto(monto)
-
     fecha = pedir_datos('Ingrese la fecha del prestamo (DD/MM/YYYY): ')
     fecha = validar_fecha(fecha)
+
+    interes = pedir_datos('Ingrese el interes anual %: ')
+    interes = validar_monto(interes)
+
+    cuotas = pedir_datos('Ingrese el numero de cuotas mensuales: ')
+    cuotas = validar_entero(cuotas)
     
+    interes_mensual = (interes / 100)/12
+    pago_cuotas = round((monto * interes_mensual)/ (1 - (1 + interes_mensual) ** -cuotas),2)
+    pago_total = round(pago_cuotas * cuotas,2)
+
     separador()
     #Verificar si el Id de prestamo  ya existe
     while any(d['Id'] == id for d in ps.prestamos):
@@ -31,7 +40,11 @@ def agregar_prestamo():
         'Nombre': nombre,
         'Monto': monto,
         'Fecha': fecha,
-        'Estado': 'ACTIVO'
+        'Estado': 'ACTIVO',
+        'Interes': interes,
+        'Cuotas': cuotas,
+        'Pago Mensual': pago_cuotas,
+        'Pago Total': pago_total
     }
     #Guardarlos en el json
     ps.guardar_prestamo(prestamo)
@@ -71,7 +84,9 @@ def modificar_prestamo():
                     print('2. Modificar monto')
                     print('3. Modificar fecha')
                     print('4. Modificar estado')
-                    print('5. Guardar y salir')
+                    print('5. Modifier interes')
+                    print('6. Modificar cuotas')
+                    print('7. Guardar y salir')
                     separador()
                     op = pedir_datos('Ingrese la opcion deseada: ')
                     separador()
@@ -93,9 +108,29 @@ def modificar_prestamo():
                     if op == 4:
                         estado = pedir_datos(f'Ingrese el nuevo estado ({prestamo['Estado']}) : ').upper()
                         if estado:
-                            prestamo ['Estado'] = estado     
+                            prestamo ['Estado'] = estado 
                     if op == 5:
-                        ps.modificar_prestamos(id, prestamo['Nombre'], prestamo['Monto'], prestamo['Fecha'], prestamo['Estado'])
+                        interes = pedir_datos('Ingrese el nuevo interes: ')
+                        interes = validar_monto(interes)
+                        if interes:
+                            prestamo ['Interes'] = interes
+                    if op == 6:
+                        cuotas = pedir_datos('Ingrese el nuevo numero de cuotas: ')
+                        cuotas = validar_entero(cuotas)
+                        if cuotas:
+                            prestamo ['Cuotas'] = cuotas
+                    
+
+                    interes_mensual = (prestamo['Interes'] / 100) / 12
+                    pago_cuotas = round((prestamo['Monto'] * interes_mensual) / (1 - (1 + interes_mensual) ** -prestamo['Cuotas']), 2)
+                    pago_total = round(pago_cuotas * prestamo['Cuotas'], 2)
+                    prestamo['Pago Mensual'] = pago_cuotas
+                    prestamo['Pago Total'] = pago_total
+
+                    if op == 7:
+                        
+                        ps.modificar_prestamos(id, prestamo['Nombre'], prestamo['Monto'], prestamo['Fecha'], prestamo['Estado'], prestamo['Interes'], prestamo['Cuotas'], prestamo['Pago Total'])
+                        mostrar_prestamo_info(id)
                         print('Prestamo guardado exitosamente ')
                         pausar()           
                         break
@@ -108,9 +143,13 @@ def mostrar_prestamo_info(id):
         if prestamo['Id'] == id:
             print(f"Prestamo ID: {prestamo['Id']}")
             print(f"A nombre de: {prestamo['Nombre']}")
-            print(f"Por el monto de: {prestamo['Monto']}")
+            print(f"Por el monto de: {prestamo['Monto']:,.2f}")
             print(f"En la fecha: {prestamo['Fecha']}") 
-            print(f"Estado: {prestamo['Estado']}") 
+            print(f"Estado: {prestamo['Estado']}")
+            print(f"Interes: {prestamo['Interes']}%")
+            print(f"Cuotas: {prestamo['Cuotas']}")
+            print(f"Pago mensual: {prestamo['Pago Mensual']:,.2f}")
+            print(f"Pago Total: {prestamo['Pago Total']:,.2f}") 
             separador()
             pausar()
 
@@ -161,7 +200,10 @@ def listar_prestamos():
             print(f"A nombre de: {prestamos['Nombre']}")
             print(f"Por el monto de: {prestamos['Monto']}")
             print(f"En la fecha: {prestamos['Fecha']}")  
-            print(f"Estado: {prestamos['Estado']}")
+            print(f"Interes: {prestamos['Interes']}%")
+            print(f"Cuotas: {prestamos['Cuotas']:,.2f}")
+            print(f"Pago Total: {prestamos['Pago Total']:,.2f}") 
+            print(f"Estado: {prestamos['Estado']}") 
             separador()
         pausar() 
     
@@ -198,6 +240,9 @@ def buscar_prestamo_nombre():
             print(f"A nombre de: {prestamos['Nombre']}")
             print(f"Por el monto de: {prestamos['Monto']}")
             print(f"En la fecha: {prestamos['Fecha']}") 
+            print(f"Interes: {prestamos['Interes']}%")
+            print(f"Cuotas: {prestamos['Cuotas']}")
+            print(f"Pago Total: {prestamos['Pago Total']}") 
             print(f"Estado: {prestamos['Estado']}") 
             separador()
             pausar() 
@@ -234,4 +279,4 @@ def consultar_prestamo():
                 pausar()
                 break
             case _ :
-                print('Opcion invalida') 
+                print('Opcion invalida')

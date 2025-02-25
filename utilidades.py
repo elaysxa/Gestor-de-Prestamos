@@ -32,7 +32,7 @@ def validar_entero(entero):
 def validar_monto(monto):
     while True:
         try:
-            num = float(monto)
+            num = float(monto)            
             return num
         except ValueError:
             print("Entrada invalida: Ingrese un valor numerico")  
