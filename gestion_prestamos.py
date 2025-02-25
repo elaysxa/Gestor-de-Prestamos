@@ -37,7 +37,7 @@ def agregar_prestamo():
     ps.guardar_prestamo(prestamo)
     limpiar_pantalla()
     separador()
-    print('COMPROBANTE DE PRESTAMO')
+    print(' COMPROBANTE DE PRESTAMO ')
     separador()
     #Mostrar el prestamo creado
     mostrar_prestamo_info(id)
@@ -45,7 +45,7 @@ def agregar_prestamo():
 def modificar_prestamo():
    limpiar_pantalla()
    separador()
-   print('MODIFICAR PRESTAMO')
+   print('  MODIFICAR PRESTAMO  ')
    separador()
    
    id = pedir_datos('Ingrese el Id del prestamo que desea modificar: ')
@@ -77,21 +77,21 @@ def modificar_prestamo():
                     separador()
                     op = validar_entero(op)
                     if op == 1:
-                        nombre = pedir_datos('Ingrese el nuevo nombre: ').upper()
+                        nombre = pedir_datos(f'Ingrese el nuevo nombre ({prestamo['Nombre']}) : ').upper()
                         if nombre:
                             prestamo ['Nombre'] = nombre
                     if op ==2:
-                        monto = pedir_datos('Ingrese el nuevo monto: ')
+                        monto = pedir_datos(f'Ingrese el nuevo monto ({prestamo['Monto']}) : ')
                         monto = validar_monto(monto)
                         if monto:
                             prestamo ['Monto'] = monto        
                     if op == 3:
-                        fecha = pedir_datos('Ingrese la nueva fecha: ')
+                        fecha = pedir_datos(f'Ingrese la nueva fecha ({prestamo['Fecha']}) : ')
                         fecha = validar_fecha(fecha)
                         if fecha:
                             prestamo ['Fecha'] = fecha  
                     if op == 4:
-                        estado = pedir_datos('Ingrese el nuevo estado: ').upper()
+                        estado = pedir_datos(f'Ingrese el nuevo estado ({prestamo['Estado']}) : ').upper()
                         if estado:
                             prestamo ['Estado'] = estado     
                     if op == 5:
@@ -117,7 +117,7 @@ def mostrar_prestamo_info(id):
 def eliminar_prestamo():
     limpiar_pantalla()
     separador()
-    print('ELIMINAR PRESTAMO')
+    print(' ELIMINAR PRESTAMO   ')
     separador()
 
     identificador = pedir_datos('Ingrese el Identificados del prestamos a eliminar: ')
@@ -168,7 +168,7 @@ def listar_prestamos():
 def buscar_prestamo_id():
     limpiar_pantalla()
     separador()
-    print('BUSCAR PRESTAMO POR ID')
+    print(' BUSCAR PRESTAMO POR ID  ')
     separador()
     id = pedir_datos('Ingrese el Id del prestamo: ')
     id = validar_entero(id)
@@ -186,7 +186,7 @@ def buscar_prestamo_id():
 def buscar_prestamo_nombre():
     limpiar_pantalla()
     separador()
-    print('BUSCAR PRESTAMO POR NOMBRE')
+    print(' BUSCAR PRESTAMO POR NOMBRE  ')
     separador()
     nombre = pedir_datos('Ingrese el nombre del prestatario: ').upper()
     separador()
@@ -210,7 +210,7 @@ def consultar_prestamo():
     while True:
         limpiar_pantalla()
         separador()
-        print('CONSULTAR PRESTAMOS')  
+        print(' CONSULTAR PRESTAMOS ')  
         separador()
         print('1. Mostrar todos los prestamos')
         print('2. Buscar prestamo por identificador')
