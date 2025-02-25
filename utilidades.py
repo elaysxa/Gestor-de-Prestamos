@@ -20,6 +20,7 @@ def generador_id_unico():
         for _ in range(5))
     return id
 
+#Validar que la entrada sea un numero entero
 def validar_entero(entero):
     try:
         num = int(entero)
@@ -29,6 +30,7 @@ def validar_entero(entero):
         pausar()
     return None
 
+#Validar que la entrada sea un numero flotante
 def validar_monto(monto):
     while True:
         try:
@@ -40,8 +42,8 @@ def validar_monto(monto):
             separador()
             monto = pedir_datos('Ingrese el monto nuevamente: ')
 
-#Validar que las entradas no esten vacias
 
+#Validar que la entrada no este vacia
 def pedir_datos(mensaje):
     while True:
         entrada = input(mensaje)
@@ -49,7 +51,8 @@ def pedir_datos(mensaje):
             return entrada
         else:
             print("La entrada no puede estar vacia, intentelo nuevamente")
-        
+
+#Validar que la fecha sea valida       
 def validar_fecha(fecha):
     while True:
         try:

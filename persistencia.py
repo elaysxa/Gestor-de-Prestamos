@@ -2,14 +2,17 @@ import json
 
 prestamos = []
 
+
 def datos():
     return prestamos
 
+#Guardar los prestamos en la lista
 def guardar_prestamo(prestamo):
     prestamos.append(prestamo)
     guardar_datos()  
     return 'Prestamo agregado existosamente'
 
+#Guardar las modificaciones de los prestamos
 def modificar_prestamos(id, nombre, monto, fecha, estado, interes, cuotas, pago_total):
     for prestamo in prestamos:
         if prestamo['Id'] == id:

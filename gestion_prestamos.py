@@ -14,8 +14,8 @@ def agregar_prestamo():
     nombre =  pedir_datos('Ingrese el nombre del prestatario: ').upper()
     
     monto = pedir_datos('Ingrese el monto del prestamo: ')
-    #Verficar que monto sea un float
     monto = validar_monto(monto)
+
     fecha = pedir_datos('Ingrese la fecha del prestamo (DD/MM/YYYY): ')
     fecha = validar_fecha(fecha)
 
@@ -239,12 +239,13 @@ def buscar_prestamo_nombre():
             prestamo_encontrado = True
             print(f"Prestamo ID: {prestamos['Id']}")
             print(f"A nombre de: {prestamos['Nombre']}")
-            print(f"Por el monto de: {prestamos['Monto']}")
+            print(f"Por el monto de: {prestamos['Monto']:,.2f}")
             print(f"En la fecha: {prestamos['Fecha']}") 
             print(f"Interes: {prestamos['Interes']}%")
             print(f"Cuotas: {prestamos['Cuotas']}")
-            print(f"Pago Total: {prestamos['Pago Total']}") 
             print(f"Estado: {prestamos['Estado']}") 
+            print(f"Pago mensual: {prestamos['Pago Mensual']:,.2f}")
+            print(f"Pago Total: {prestamos['Pago Total']:,.2f}") 
             separador()
             pausar() 
 
