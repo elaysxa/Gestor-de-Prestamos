@@ -5,7 +5,7 @@ import persistencia as ps
 def agregar_prestamo():
     limpiar_pantalla()
     separador()
-    print('Agregar nuevo prestamo')
+    print(' AGREGAR PRESTAMO  ')
     separador()
 
     id = int(generador_id_unico())
@@ -191,7 +191,7 @@ def eliminar_prestamo():
 def listar_prestamos():
     limpiar_pantalla()
     separador()
-    print('Todos los prestamos')
+    print(' TODOS LOS PRESTAMOS  ')
     separador()
     if len(ps.datos()) == 0:
         print('No hay prestamos')
