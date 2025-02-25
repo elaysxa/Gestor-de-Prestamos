@@ -20,13 +20,13 @@ def modificar_prestamos(id, nombre, monto, fecha, estado):
             guardar_datos()
 
 def guardar_datos():
-    with open('data/prestamos.json', 'w') as archivo:
-        json.dump(prestamos, archivo, indent=4)
+    with open('data/prestamos.json', 'w' ,encoding='utf-8') as archivo:
+        json.dump(prestamos, archivo, ensure_ascii=False, indent=4)
 
 def cargar_datos():
     global prestamos
     try:
-        with open("data/prestamos.json", 'r') as archivo:
+        with open("data/prestamos.json", 'r', encoding='utf-8') as archivo:
             prestamos = json.load(archivo)
     except FileNotFoundError:
         # Crear un archivo vacío si no existe
