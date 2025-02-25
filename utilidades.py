@@ -1,7 +1,7 @@
 import os
 import random
 import string
-from datetime import date, datetime
+from datetime import datetime
 
 
 def limpiar_pantalla():
@@ -16,7 +16,8 @@ def pausar():
 def generador_id_unico():
     #Genera una cadena de string con numeros de 5 digitos
     caracteres =  string.digits
-    id = ''.join(random.choice(caracteres) for _ in range(5))
+    id = ''.join(random.choice(caracteres) 
+        for _ in range(5))
     return id
 
 def validar_entero(entero):
@@ -57,6 +58,4 @@ def validar_fecha(fecha):
         except ValueError:
             print("Entrada invalida: Ingrese una fecha valida (dd/mm/yyyy)")
             separador()
-            fecha = input("Ingrese la fecha nuevamente: ")
-        
-        
+            fecha = pedir_datos("Ingrese la fecha nuevamente: ")

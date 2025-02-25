@@ -1,6 +1,6 @@
 from utilidades import limpiar_pantalla, separador, generador_id_unico, pausar, validar_entero, validar_monto, pedir_datos, validar_fecha
 import persistencia as ps
-from datetime import date
+
 
 def agregar_prestamo():
     limpiar_pantalla()
@@ -42,7 +42,6 @@ def agregar_prestamo():
     #Mostrar el prestamo creado
     mostrar_prestamo_info(id)
    
-
 def modificar_prestamo():
    limpiar_pantalla()
    separador()
@@ -103,8 +102,7 @@ def modificar_prestamo():
         if not prestamo_encontrado:
             print('Prestamo no encontrado')
             pausar()
-                    
-                   
+                                       
 def mostrar_prestamo_info(id):
     for prestamo in ps.datos():
         if prestamo['Id'] == id:
