@@ -96,7 +96,7 @@ def modificar_prestamo():
                         if nombre:
                             prestamo ['Nombre'] = nombre
                     if op ==2:
-                        monto = pedir_datos(f'Ingrese el nuevo monto ({prestamo['Monto']}) : ')
+                        monto = pedir_datos(f'Ingrese el nuevo monto ({prestamo['Monto']:,.2f}) : ')
                         monto = validar_monto(monto)
                         if monto:
                             prestamo ['Monto'] = monto        
@@ -110,12 +110,12 @@ def modificar_prestamo():
                         if estado:
                             prestamo ['Estado'] = estado 
                     if op == 5:
-                        interes = pedir_datos('Ingrese el nuevo interes: ')
+                        interes = pedir_datos(f'Ingrese el nuevo interes ({prestamo['Interes']}%): ')
                         interes = validar_monto(interes)
                         if interes:
                             prestamo ['Interes'] = interes
                     if op == 6:
-                        cuotas = pedir_datos('Ingrese el nuevo numero de cuotas: ')
+                        cuotas = pedir_datos(f'Ingrese el nuevo numero de cuotas ({prestamo['Cuotas']}): ')
                         cuotas = validar_entero(cuotas)
                         if cuotas:
                             prestamo ['Cuotas'] = cuotas
@@ -130,9 +130,10 @@ def modificar_prestamo():
                     if op == 7:
                         
                         ps.modificar_prestamos(id, prestamo['Nombre'], prestamo['Monto'], prestamo['Fecha'], prestamo['Estado'], prestamo['Interes'], prestamo['Cuotas'], prestamo['Pago Total'])
-                        mostrar_prestamo_info(id)
-                        print('Prestamo guardado exitosamente ')
-                        pausar()           
+                        limpiar_pantalla()
+                        print(' PRESTAMO GUARDADO EXITOSAMENTE ')
+                        separador()
+                        mostrar_prestamo_info(id)         
                         break
         if not prestamo_encontrado:
             print('Prestamo no encontrado')
