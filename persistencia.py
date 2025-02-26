@@ -26,9 +26,12 @@ def modificar_prestamos(id, nombre, monto, fecha, estado, interes, cuotas, pago_
             guardar_datos()
 
 def guardar_datos():
-    with open('data/prestamos.json', 'w' ,encoding='utf-8') as archivo:
-        json.dump(prestamos, archivo, ensure_ascii=False, indent=4)
-
+    try:
+        with open('data/prestamos.json', 'w' ,encoding='utf-8') as archivo:
+            json.dump(prestamos, archivo, ensure_ascii=False, indent=4)
+    except Exception as e:
+        print(f'Error al guardar los datos{e}')
+        
 def cargar_datos():
     global prestamos
     try:
