@@ -1,7 +1,6 @@
 from utilidades import limpiar_pantalla, separador, generador_id_unico, pausar, validar_entero, validar_monto, pedir_datos, validar_fecha
 import persistencia as ps
 
-
 def agregar_prestamo():
     limpiar_pantalla()
     separador()
