@@ -28,11 +28,8 @@ def agregar_prestamo():
     interes_mensual = (interes / 100)/12
     pago_cuotas = round((monto * interes_mensual)/ (1 - (1 + interes_mensual) ** -cuotas),2)
     pago_total = round(pago_cuotas * cuotas,2)
-
     separador()
-    #Verificar si el Id de prestamo  ya existe
-    while any(d['Id'] == id for d in ps.prestamos):
-        id = int(generador_id_unico())
+
     
     #Agregar el prestamo al diccionario
     prestamo = {
