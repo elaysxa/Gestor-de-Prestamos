@@ -9,7 +9,7 @@ def limpiar_pantalla():
     os.system('cls')
 
 def separador():
-    print('-'*40)
+    print('-'*50)
 
 def pausar():
     input('Presione una tecla para continuar ')
