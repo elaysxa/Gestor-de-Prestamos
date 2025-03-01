@@ -1,5 +1,5 @@
 from utilidades import limpiar_pantalla, separador, validar_entero
-from gestion_prestamos import agregar_prestamo, modificar_prestamo, consultar_prestamo, eliminar_prestamo, consultar_prestamo
+from gestion_prestamos import agregar_prestamo, modificar_prestamo, consultar_prestamo, eliminar_prestamo, consultar_prestamo, pagos
 
 def menu_principal():
     while True:
@@ -11,7 +11,7 @@ def menu_principal():
         print('2. Modificar prestamo')
         print('3. Consultar prestamo')
         print('4. Eliminar prestamo')
-        print('5. Salir')
+        print('5. Registrar pago')
         separador()
         opcion = input('Ingrese la opcion deseada: ')
         # Verificar que op sea un numero
@@ -26,7 +26,9 @@ def menu_principal():
             case 4:
                 eliminar_prestamo()
             case 5:
-                print('Saliendo del programa')
-                break 
+                pagos()
+            case 6:
+                print('Saliendo del sistema')
+                break
             case _ :
                 print('Opcion invalida')               
