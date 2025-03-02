@@ -1,5 +1,6 @@
 from utilidades import limpiar_pantalla, separador, validar_entero
-from gestion_prestamos import agregar_prestamo, modificar_prestamo, consultar_prestamo, eliminar_prestamo, consultar_prestamo, pagos
+from gestion_prestamos import agregar_prestamo, modificar_prestamo, consultar_prestamo, eliminar_prestamo, consultar_prestamo
+from pagos import pagos
 
 def menu_principal():
     while True:
