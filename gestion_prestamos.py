@@ -296,12 +296,28 @@ def comprobante_pago(id, pago):
         if prestamo['Id'] == id:
             separador()
 
-
 def consultar_pago():
+   limpiar_pantalla()
+   separador()
+   print('     CONSULTAR PAGO')
+   separador()
+   id = pedir_datos('Ingrese el ID del prestamo: ')
+   id = validar_entero(id)
    for prestamo in ps.datos ():
         if prestamo['Id'] == id:
-            separador()
-
+            limpiar_pantalla()
+            print(f"{'👤 Nombre:':>35}\t{prestamo["Nombre"]}")
+            print(f"{'💰 Monto:':>35}\t{prestamo["Monto"]:,.2f}")
+            print(f"{'📊 Interes:':>35}\t{prestamo["Interes"]}%")
+            print('-'*65)
+            print(f'\t\tLISTADO DE PAGOS')
+            print('-'*65)
+            print(f"{'Cuota No':<10}  {'Monto':<15}{'Fecha':<15} {'Pago Faltante':<15}")
+            print('-'*65)
+            for pago in prestamo['Pagos']:
+                print(f"   {pago['Cuota No']:<7}  {pago['Monto']:<15,.2f}{pago['Fecha']:<15} {pago['Pago Faltante']:<15,.2f}")
+            print('-'*65)
+            pausar()
 def eliminar_pago():
      limpiar_pantalla()
      separador()
