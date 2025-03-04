@@ -5,24 +5,24 @@ import persistencia as ps
 def agregar_prestamo():
     limpiar_pantalla()
     separador()
-    print(' AGREGAR PRESTAMO  ')
+    print(' ➕ AGREGAR PRESTAMO  ')
     separador()
 
     id = int(generador_id_unico())
-    print('Identificador: ', id)
+    print('🆔 Identificador: ', id)
 
-    nombre =  pedir_datos('Ingrese el nombre del prestatario: ').upper()
+    nombre =  pedir_datos('👤 Ingrese el nombre del prestatario: ').upper()
     
-    monto = pedir_datos('Ingrese el monto del prestamo: ')
+    monto = pedir_datos('💲 Ingrese el monto del prestamo: ')
     monto = validar_monto(monto)
 
-    fecha = pedir_datos('Ingrese la fecha del prestamo (DD/MM/YYYY): ')
+    fecha = pedir_datos('📅 Ingrese la fecha del prestamo (DD/MM/YYYY): ')
     fecha = validar_fecha(fecha)
 
-    interes = pedir_datos('Ingrese el interes anual %: ')
+    interes = pedir_datos('📈 Ingrese el interes anual %: ')
     interes = validar_monto(interes)
 
-    cuotas = pedir_datos('Ingrese el numero de cuotas mensuales: ')
+    cuotas = pedir_datos('📆 Ingrese el numero de cuotas mensuales: ')
     cuotas = validar_entero(cuotas)
     
     interes_mensual = (interes / 100)/12
@@ -47,7 +47,7 @@ def agregar_prestamo():
     ps.guardar_prestamo(prestamo)
     limpiar_pantalla()
     separador()
-    print('     COMPROBANTE DE PRESTAMO      ')
+    print('     🧾 COMPROBANTE DE PRESTAMO      ')
     separador()
     #Mostrar el prestamo creado
     mostrar_prestamo_info(id)
@@ -142,7 +142,7 @@ def mostrar_prestamo_info(id):
         if prestamo['Id'] == id:
             print(f" 🆔 Préstamo ID:    {prestamo['Id']}")
             print(f" 👤 A nombre de:    {prestamo['Nombre']}")
-            print(f" 💰 Monto:          RD$ {prestamo['Monto']:,.2f}")
+            print(f" 💲 Monto:          RD$ {prestamo['Monto']:,.2f}")
             print(f" 📅 Fecha:          {prestamo['Fecha']}")
             print(f" 🔖 Estado:         {prestamo['Estado']}")
             print(f" 📊 Interés:        {prestamo['Interes']}%")
@@ -155,10 +155,10 @@ def mostrar_prestamo_info(id):
 def eliminar_prestamo():
     limpiar_pantalla()
     separador()
-    print(' ELIMINAR PRESTAMO   ')
+    print(' 🗑️ ELIMINAR PRESTAMO   ')
     separador()
 
-    identificador = pedir_datos('Ingrese el Identificados del prestamos a eliminar: ')
+    identificador = pedir_datos('🆔 Ingrese el Identificados del prestamos a eliminar: ')
     
     #Validar que el id ingresado es un numero
     id = validar_entero(identificador)
@@ -170,18 +170,18 @@ def eliminar_prestamo():
         for prestamo in ps.datos():
             if prestamo['Id'] == id:
                 prestamo_encontrado = True
-                confirmacion = input(f"Esta seguro de que quiere borrar el prestamo con el identificador {prestamo['Id']} Presione (S) para confirmar: ")
+                confirmacion = input(f" Esta seguro de que quiere borrar el prestamo con el identificador {prestamo['Id']} Presione (S) para confirmar: ")
                 if confirmacion.lower() == 's':
                     ps.datos().remove(prestamo)
                     separador()
-                    print('Prestamo eliminado con exito')
+                    print(' ✅ Prestamo eliminado con exito')
                     separador()
                 else:
-                    print('Eliminacion cancelada')
+                    print('❌ Eliminacion cancelada')
                     pausar()
                     break
         if not prestamo_encontrado:
-            print('No existe ningun prestamo con este identificador')
+            print('⚠️ No existe ningun prestamo con este identificador')
             pausar()
 
     ps.guardar_datos()
@@ -189,12 +189,12 @@ def eliminar_prestamo():
 def listar_prestamos():
     limpiar_pantalla()
     separador()
-    print("     LISTA DE PRESTAMOS      ")
+    print("     📃 LISTA DE PRESTAMOS      ")
     separador()
     for prestamo in ps.datos():
             print(f" 🆔 Préstamo ID:    {prestamo['Id']}")
             print(f" 👤 A nombre de:    {prestamo['Nombre']}")
-            print(f" 💰 Monto:          RD$ {prestamo['Monto']:,.2f}")
+            print(f" 💲 Monto:          RD$ {prestamo['Monto']:,.2f}")
             print(f" 📅 Fecha:          {prestamo['Fecha']}")
             print(f" 🔖 Estado:         {prestamo['Estado']}")
             print(f" 📊 Interés:        {prestamo['Interes']}%")
@@ -207,7 +207,7 @@ def listar_prestamos():
 def buscar_prestamo_id():
     limpiar_pantalla()
     separador()
-    print(' BUSCAR PRESTAMO POR ID  ')
+    print(' 🆔 BUSCAR PRESTAMO POR ID  ')
     separador()
     id = pedir_datos('Ingrese el Id del prestamo: ')
     id = validar_entero(id)
@@ -219,13 +219,13 @@ def buscar_prestamo_id():
             prestamo_encontrado = True
             mostrar_prestamo_info(id)
     if not prestamo_encontrado:
-        print('El prestamo no existe')
+        print('❌ El prestamo no existe')
         pausar()
 
 def buscar_prestamo_nombre():
     limpiar_pantalla()
     separador()
-    print(' BUSCAR PRESTAMO POR NOMBRE  ')
+    print(' 👤 BUSCAR PRESTAMO POR NOMBRE  ')
     separador()
     nombre = pedir_datos('Ingrese el nombre del prestatario: ').upper()
     separador()
@@ -235,7 +235,7 @@ def buscar_prestamo_nombre():
             prestamo_encontrado = True
             print(f" 🆔 Préstamo ID:    {prestamo['Id']}")
             print(f" 👤 A nombre de:    {prestamo['Nombre']}")
-            print(f" 💰 Monto:          RD$ {prestamo['Monto']:,.2f}")
+            print(f" 💲 Monto:          RD$ {prestamo['Monto']:,.2f}")
             print(f" 📅 Fecha:          {prestamo['Fecha']}")
             print(f" 🔖 Estado:         {prestamo['Estado']}")
             print(f" 📊 Interés:        {prestamo['Interes']}%")
@@ -246,19 +246,19 @@ def buscar_prestamo_nombre():
     pausar() 
 
     if not prestamo_encontrado:
-        print('Prestamo no encontrado ')
+        print('❌ Prestamo no encontrado ')
         pausar()
 
 def consultar_prestamo():
     while True:
         limpiar_pantalla()
         separador()
-        print(' CONSULTAR PRESTAMOS ')  
+        print(' 🧾 CONSULTAR PRESTAMOS ')  
         separador()
-        print('1. Mostrar todos los prestamos')
-        print('2. Buscar prestamo por identificador')
-        print('3. Buscar prestamo por nombre')
-        print('4. Regresar al menu principal')
+        print('1.📑 Mostrar todos los prestamos')
+        print('2.🆔 Buscar prestamo por identificador')
+        print('3.👥 Buscar prestamo por nombre')
+        print('4.🔙 Regresar al menu principal')
         separador()
 
         opcion = pedir_datos('Ingrese la opcion deseada: ')
@@ -277,4 +277,4 @@ def consultar_prestamo():
                 pausar()
                 break
             case _ :
-                print('Opcion invalida')
+                print(' ❌ Opcion invalida')

@@ -7,13 +7,13 @@ def pagos():
     while True:
         limpiar_pantalla()
         separador()
-        print('   REGISTRAR PAGO    ')
+        print('   💲 PAGOS    ')
         separador()
-        print('1. Registar pago')
-        print('2. Consultar pago')
-        print('3. Eliminar pago')
-        print('4. Informe de pagos')
-        print('5. Regresar al menu principal')
+        print('1.➕ Registar pago')
+        print('2.📖 Consultar pago')
+        print('3.🗑️  Eliminar pago')
+        print('4.📃 Informe de pagos')
+        print('5.🔙 Regresar al menu principal')
         separador()
         op = pedir_datos('Ingrese la opcion deseada: ')
         op = validar_entero(op)
@@ -59,7 +59,7 @@ def comprobante_pago(id, pago):
     for prestamo in ps.datos ():
         if prestamo['Id'] == id:
             separador()
-            print('     COMPROBANTE DE PAGO     ')
+            print('     🧾 COMPROBANTE DE PAGO     ')
             separador()
             print(f"📅  Fecha:            {pago['Fecha']}")
             print(f"📆  Cuota No:         {pago['Cuota No']}")
@@ -69,16 +69,13 @@ def comprobante_pago(id, pago):
             print(f"🗓️  Cuotas Restantes: {prestamo['Cuotas'] - pago['Cuota No']}")
             separador()
             pausar()
-    for prestamo in ps.datos ():
-        if prestamo['Id'] == id:
-            separador()
 
 def consultar_pago():
    limpiar_pantalla()
    separador()
-   print('     CONSULTAR PAGO')
+   print('     📑 CONSULTAR PAGO')
    separador()
-   id = pedir_datos('Ingrese el ID del prestamo: ')
+   id = pedir_datos(' 🆔 Ingrese el ID del prestamo: ')
    id = validar_entero(id)
 
    prestamo_encontrado = False
@@ -87,7 +84,7 @@ def consultar_pago():
             prestamo_encontrado = True
             limpiar_pantalla()
             print(f"{'👤 Nombre:':>40}\t{prestamo["Nombre"]}")
-            print(f"{'💰 Monto:':>40}\t{prestamo["Monto"]:,.2f}")
+            print(f"{'💲 Monto:':>40}\t{prestamo["Monto"]:,.2f}")
             print(f"{'📊 Interes:':>40}\t{prestamo["Interes"]}%")
             print('-'*65)
             print(f'\t\tLISTADO DE PAGOS')
@@ -109,9 +106,9 @@ def consultar_pago():
 def eliminar_pago():
      limpiar_pantalla()
      separador()
-     print('     ELIMINAR PAGO')
+     print('     🗑️  ELIMINAR PAGO')
      separador()
-     id = pedir_datos('Ingrese el ID del prestamo: ')
+     id = pedir_datos('🆔 Ingrese el ID del prestamo: ')
      id = validar_entero(id)
      limpiar_pantalla()
      for prestamo in ps.datos():
@@ -165,12 +162,12 @@ def eliminar_pago():
 def registrar_pago():
     limpiar_pantalla()
     separador()
-    print(' REGISTRAR PAGO ')
+    print(' 💲 REGISTRAR PAGO ')
     separador()
     id = pedir_datos('Ingrese el ID del prestamo: ')
     id = validar_entero(id)
     
-    """Registra un pago para un préstamo existente y actualiza el saldo pendiente."""
+    
     prestamo_encontrado = False
     for prestamo in ps.datos():
         #Crear la lista de pagos
