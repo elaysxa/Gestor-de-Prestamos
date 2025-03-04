@@ -2,13 +2,14 @@ import os
 import random
 import string
 from datetime import datetime
+import persistencia as ps
 
 
 def limpiar_pantalla():
     os.system('cls')
 
 def separador():
-    print('-'*40)
+    print('-'*50)
 
 def pausar():
     input('Presione una tecla para continuar ')
@@ -18,7 +19,8 @@ def generador_id_unico():
     caracteres =  string.digits
     id = ''.join(random.choice(caracteres) 
         for _ in range(5))
-    return id
+    if not any (d['Id'] == id for d in ps.prestamos):
+        return id
 
 #Validar que la entrada sea un numero entero
 def validar_entero(entero):
