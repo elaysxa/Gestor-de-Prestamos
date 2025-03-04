@@ -12,24 +12,48 @@ def pagos():
         print('1. Registar pago')
         print('2. Consultar pago')
         print('3. Eliminar pago')
-        print('4. Regresar al menu principal')
+        print('4. Informe de pagos')
+        print('5. Regresar al menu principal')
         separador()
         op = pedir_datos('Ingrese la opcion deseada: ')
         op = validar_entero(op)
 
         match op:
-            case 1:
-                registrar_pago()
-            case 2:
-                consultar_pago()
-            case 3:
-                eliminar_pago()
-            case 4:
+            case 1: registrar_pago()
+            case 2: consultar_pago()
+            case 3: eliminar_pago()
+            case 4: informe_pago()
+            case 5:
                 print('Regresando al menu principal')
                 pausar()
                 break
             case _:
                 print('Opcion invalida')
+def informe_pago():
+    
+    limpiar_pantalla()
+    separador()
+    print(' 📜 INFORME DE PAGOS')
+    separador()
+    id = pedir_datos('Ingrese el id del prestatario para ver informe de pagos : ')
+    id = validar_entero(id)
+    separador()
+    for prestamo in ps.datos():
+        if prestamo['Id'] == id:
+            total_pagado = sum(p['Monto'] for p in prestamo.get('Pagos', []))
+            saldo_pendiente = prestamo['Pago Total'] - total_pagado
+            print (f"👤  Prestamo de:         {prestamo['Nombre']}")
+            print(f"💲  Pagado:              {total_pagado:,.2f}")
+            print(f"💰  Total a pagar:       {prestamo['Pago Total']:,.2f}")
+            print(f"📉  Saldo pendiente      {saldo_pendiente:,.2f}")
+            separador()
+            pausar()
+            if saldo_pendiente <=0:
+                print(" ✅ Prestamo saldado completamente ")
+                pausar()
+    else:
+        print('❌ Prestamo no encontrado ')
+
 
 def comprobante_pago(id, pago):
     for prestamo in ps.datos ():
