@@ -3,6 +3,7 @@ import random
 import string
 from datetime import datetime
 import persistencia as ps
+import re
 
 
 def limpiar_pantalla():
@@ -64,3 +65,13 @@ def validar_fecha(fecha):
             print("Entrada invalida: Ingrese una fecha valida (dd/mm/yyyy)")
             separador()
             fecha = pedir_datos("Ingrese la fecha nuevamente: ")
+
+def validar_letras(mensaje):
+    while True:
+        entrada = input(mensaje)
+        if re.match(r"^[a-zA-Z\s]+$", entrada):
+            return entrada
+        else:
+            print('❌  Entrada invalida: Ingrese solo letras y espacios')
+
+

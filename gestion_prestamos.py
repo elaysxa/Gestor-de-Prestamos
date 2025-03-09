@@ -1,4 +1,4 @@
-from utilidades import limpiar_pantalla, separador, generador_id_unico, pausar, validar_entero, validar_monto, pedir_datos, validar_fecha
+from utilidades import limpiar_pantalla, separador, generador_id_unico, pausar, validar_entero, validar_monto, pedir_datos, validar_fecha, validar_letras
 import persistencia as ps
 
 
@@ -11,7 +11,7 @@ def agregar_prestamo():
     id = int(generador_id_unico())
     print('🆔 Identificador: ', id)
 
-    nombre =  pedir_datos('👤 Ingrese el nombre del prestatario: ').upper()
+    nombre =  validar_letras('👤 Ingrese el nombre del prestatario: ').upper()
     
     monto = pedir_datos('💲 Ingrese el monto del prestamo: ')
     monto = validar_monto(monto)
