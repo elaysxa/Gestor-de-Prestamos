@@ -1,4 +1,4 @@
-from utilidades import limpiar_pantalla, separador, generador_id_unico, pausar, validar_entero, validar_flotante, pedir_datos, validar_fecha, validar_letras
+from utilidades import limpiar_pantalla, separador, generador_id_unico, pausar, validar_entero, validar_flotante, validar_fecha, validar_letras
 import persistencia as ps
 
 
@@ -49,81 +49,76 @@ def modificar_prestamo():
    print('  MODIFICAR PRESTAMO  ')
    separador()
    
-   id = pedir_datos('Ingrese el Id del prestamo que desea modificar: ')
+   id = validar_entero('Ingrese el Id del prestamo que desea modificar: ')
    separador()
 
-   if id is None:
-        pass    
-   else:
-        prestamo_encontrado = False
-        for prestamo in ps.datos():
-            if prestamo['Id'] == id:
-                prestamo_encontrado = True
-                mostrar_prestamo_info(id)
+   prestamo_encontrado = False
+   for prestamo in ps.datos():
+        if prestamo['Id'] == id:
+            prestamo_encontrado = True
+            mostrar_prestamo_info(id)
+            limpiar_pantalla()
+            separador()
+            while True:
                 limpiar_pantalla()
                 separador()
-                while True:
-                    limpiar_pantalla()
-                    separador()
-                    print('    MODO EDICION    ')
-                    separador()
-                    print('1. Modificar el nombre del prestatario')
-                    print('2. Modificar monto')
-                    print('3. Modificar fecha')
-                    print('4. Modificar estado')
-                    print('5. Modificar interes')
-                    print('6. Modificar cuotas')
-                    print('7. Guardar y salir')
-                    separador()
-                    op = pedir_datos('Ingrese la opcion deseada: ')
-                    separador()
-                    op = validar_entero(op)
-                    if op == 1:
-                        nombre = pedir_datos(f'Ingrese el nuevo nombre ({prestamo['Nombre']}) : ').upper()
-                        if nombre:
-                            prestamo ['Nombre'] = nombre
-                    if op ==2:
-                        monto = pedir_datos(f'Ingrese el nuevo monto ({prestamo['Monto']:,.2f}) : ')
-                        monto = validar_flotante(monto)
-                        if monto:
+                print('    MODO EDICION    ')
+                separador()
+                print('1. Modificar el nombre del prestatario')
+                print('2. Modificar monto')
+                print('3. Modificar fecha')
+                print('4. Modificar estado')
+                print('5. Modificar interes')
+                print('6. Modificar cuotas')
+                print('7. Guardar y salir')
+                separador()
+                op = validar_entero('Ingrese la opcion deseada: ')
+                separador()
+                if op == 1:
+                    nombre = validar_letras(f'Ingrese el nuevo nombre ({prestamo['Nombre']}) : ').upper()
+                    if nombre:
+                         prestamo ['Nombre'] = nombre
+                if op ==2:
+                    monto = validar_flotante(f'Ingrese el nuevo monto ({prestamo['Monto']:,.2f}) : ')
+                   
+                    if monto:
                             prestamo ['Monto'] = monto        
-                    if op == 3:
-                        fecha = pedir_datos(f'Ingrese la nueva fecha ({prestamo['Fecha']}) : ')
-                        fecha = validar_fecha(fecha)
-                        if fecha:
-                            prestamo ['Fecha'] = fecha  
-                    if op == 4:
-                        estado = pedir_datos(f'Ingrese el nuevo estado ({prestamo['Estado']}) : ').upper()
-                        if estado:
-                            prestamo ['Estado'] = estado 
-                    if op == 5:
-                        interes = pedir_datos(f'Ingrese el nuevo interes ({prestamo['Interes']}%): ')
-                        interes = validar_flotante(interes)
-                        if interes:
-                            prestamo ['Interes'] = interes
-                    if op == 6:
-                        cuotas = pedir_datos(f'Ingrese el nuevo numero de cuotas ({prestamo['Cuotas']}): ')
-                        cuotas = validar_entero(cuotas)
-                        if cuotas:
-                            prestamo ['Cuotas'] = cuotas
+                if op == 3:
+                    fecha = validar_fecha(f'Ingrese la nueva fecha ({prestamo['Fecha']}) : ')
                     
-
+                    if fecha:
+                        prestamo ['Fecha'] = fecha  
+                if op == 4:
+                    estado = validar_letras(f'Ingrese el nuevo estado ({prestamo['Estado']}) : ').upper()
+                    if estado:
+                        prestamo ['Estado'] = estado 
+                if op == 5:
+                    interes = validar_flotante(f'Ingrese el nuevo interes ({prestamo['Interes']}%): ')
+                    
+                    if interes:
+                        prestamo ['Interes'] = interes
+                if op == 6:
+                    cuotas = validar_entero(f'Ingrese el nuevo numero de cuotas ({prestamo['Cuotas']}): ')
+                    if cuotas:
+                        prestamo ['Cuotas'] = cuotas
+                    
+    
                     interes_mensual = (prestamo['Interes'] / 100) / 12
                     pago_cuotas = round((prestamo['Monto'] * interes_mensual) / (1 - (1 + interes_mensual) ** -prestamo['Cuotas']), 2)
                     pago_total = round(pago_cuotas * prestamo['Cuotas'], 2)
                     prestamo['Pago Mensual'] = pago_cuotas
                     prestamo['Pago Total'] = pago_total
-
-                    if op == 7:
+    
+                if op == 7:
                         
-                        ps.modificar_prestamos(id, prestamo['Nombre'], prestamo['Monto'], prestamo['Fecha'], prestamo['Estado'], prestamo['Interes'], prestamo['Cuotas'], prestamo['Pago Total'])
-                        limpiar_pantalla()
-                        separador()
-                        print('     PRESTAMO MODIFICADO EXITOSAMENTE     ')
-                        separador()
-                        mostrar_prestamo_info(id)
-                        break
-        if not prestamo_encontrado:
+                    ps.modificar_prestamos(id, prestamo['Nombre'], prestamo['Monto'], prestamo['Fecha'], prestamo['Estado'], prestamo['Interes'], prestamo['Cuotas'], prestamo['Pago Total'])
+                    limpiar_pantalla()
+                    separador()
+                    print('     PRESTAMO MODIFICADO EXITOSAMENTE     ')
+                    separador()
+                    mostrar_prestamo_info(id)
+                    break
+   if not prestamo_encontrado:
             print('Prestamo no encontrado')
             pausar()
                                        
@@ -145,33 +140,28 @@ def mostrar_prestamo_info(id):
 def eliminar_prestamo():
     limpiar_pantalla()
     separador()
-    print(' 🗑️ ELIMINAR PRESTAMO   ')
+    print(' 🗑️  ELIMINAR PRESTAMO   ')
     separador()
 
-    identificador = pedir_datos('🆔 Ingrese el Identificados del prestamos a eliminar: ')
-    
-    #Validar que el id ingresado es un numero
-    id = validar_entero(identificador)
-    
-    if id is None:
-        pass
-    else:
-        prestamo_encontrado = False
-        for prestamo in ps.datos():
-            if prestamo['Id'] == id:
-                prestamo_encontrado = True
-                confirmacion = input(f" Esta seguro de que quiere borrar el prestamo con el identificador {prestamo['Id']} Presione (S) para confirmar: ")
-                if confirmacion.lower() == 's':
-                    ps.datos().remove(prestamo)
-                    separador()
-                    print(' ✅ Prestamo eliminado con exito')
-                    separador()
-                else:
-                    print('❌ Eliminacion cancelada')
-                    pausar()
-                    break
-        if not prestamo_encontrado:
-            print('⚠️ No existe ningun prestamo con este identificador')
+    id = validar_entero('🆔 Ingrese el Identificados del prestamos a eliminar: ')
+    separador()
+    mostrar_prestamo_info(id)
+    prestamo_encontrado = False
+    for prestamo in ps.datos():
+        if prestamo['Id'] == id:
+            prestamo_encontrado = True
+            confirmacion = input(f"❓ Esta seguro de que quiere borrar el prestamo con el identificador {prestamo['Id']} Presione (S) para confirmar: ")
+            if confirmacion.lower() == 's':
+                ps.datos().remove(prestamo)
+                separador()
+                print(' ✅ Prestamo eliminado con exito')
+                separador()
+            else:
+                print('❌ Eliminacion cancelada')
+                pausar()
+                break
+    if not prestamo_encontrado:
+            print('⚠️  No existe ningun prestamo con este identificador')
             pausar()
 
     ps.guardar_datos()
@@ -199,8 +189,8 @@ def buscar_prestamo_id():
     separador()
     print(' 🆔 BUSCAR PRESTAMO POR ID  ')
     separador()
-    id = pedir_datos('Ingrese el Id del prestamo: ')
-    id = validar_entero(id)
+    id = validar_entero('Ingrese el Id del prestamo: ')
+    
     separador()
 
     prestamo_encontrado = False
@@ -217,7 +207,7 @@ def buscar_prestamo_nombre():
     separador()
     print(' 👤 BUSCAR PRESTAMO POR NOMBRE  ')
     separador()
-    nombre = pedir_datos('Ingrese el nombre del prestatario: ').upper()
+    nombre = validar_letras('Ingrese el nombre del prestatario: ').upper()
     separador()
     prestamo_encontrado = False
     for prestamo in ps.datos():
@@ -252,8 +242,6 @@ def consultar_prestamo():
         separador()
 
         op = validar_entero('Ingrese la opcion deseada: ')
-        # Verificar que op sea un numero
-       
         
         match op:
             case 1:
