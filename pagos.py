@@ -1,4 +1,4 @@
-from utilidades import limpiar_pantalla, separador, generador_id_unico, pausar, validar_entero, validar_monto, pedir_datos, validar_fecha
+from utilidades import limpiar_pantalla, separador, pausar, validar_entero, validar_flotante, pedir_datos
 import persistencia as ps
 from gestion_prestamos import mostrar_prestamo_info
 from datetime import datetime
@@ -138,6 +138,7 @@ def eliminar_pago():
                         if confirmacion.lower() == 's': 
                             monto = pago['Monto']
                             prestamo['Pagos']
+
                             #Restar el monto del pago eliminado al Pago Faltante
                             prestamo['Pago']['Pago Faltante'] = round(prestamo['Pago']['Pago Faltante'] + monto, 2)
                             prestamo['Pagos'].pop(indice - 1)
@@ -182,7 +183,7 @@ def registrar_pago():
             separador()
 
             monto = input(f"Ingrese el monto del pago ({prestamo['Pago Mensual']:,.2f}): ")
-            monto = validar_monto(monto)
+            monto = validar_flotante(monto)
             separador()
             #Sumar todos los pagos realizados
 

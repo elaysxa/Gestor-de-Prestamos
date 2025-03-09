@@ -15,9 +15,9 @@ def menu_principal():
         print('5.📠  Pagos ')
         print('6.🔚 Salir')
         separador()
-        opcion = input('Ingrese la opcion deseada: ')
-        # Verificar que op sea un numero
-        op = validar_entero(opcion)
+        op = validar_entero('Ingrese la opcion deseada: ')
+        
+        
         match op:
             case 1: agregar_prestamo()
             case 2: modificar_prestamo()

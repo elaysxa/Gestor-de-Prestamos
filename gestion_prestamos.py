@@ -1,4 +1,4 @@
-from utilidades import limpiar_pantalla, separador, generador_id_unico, pausar, validar_entero, validar_monto, pedir_datos, validar_fecha, validar_letras
+from utilidades import limpiar_pantalla, separador, generador_id_unico, pausar, validar_entero, validar_flotante, pedir_datos, validar_fecha, validar_letras
 import persistencia as ps
 
 
@@ -12,19 +12,10 @@ def agregar_prestamo():
     print('🆔 Identificador: ', id)
 
     nombre =  validar_letras('👤 Ingrese el nombre del prestatario: ').upper()
-    
-    monto = pedir_datos('💲 Ingrese el monto del prestamo: ')
-    monto = validar_monto(monto)
-
-    fecha = pedir_datos('📅 Ingrese la fecha del prestamo (DD/MM/YYYY): ')
-    fecha = validar_fecha(fecha)
-
-    interes = pedir_datos('📈 Ingrese el interes anual %: ')
-    interes = validar_monto(interes)
-
-    cuotas = pedir_datos('📆 Ingrese el numero de cuotas mensuales: ')
-    cuotas = validar_entero(cuotas)
-    
+    monto = validar_flotante('💲 Ingrese el monto del prestamo: ')
+    fecha = validar_fecha('📅 Ingrese la fecha del prestamo (DD/MM/YYYY): ')
+    interes = validar_flotante('📈 Ingrese el interes anual %: ')
+    cuotas =validar_entero('📆 Ingrese el numero de cuotas mensuales: ')
     interes_mensual = (interes / 100)/12
     pago_cuotas = round((monto * interes_mensual)/ (1 - (1 + interes_mensual) ** -cuotas),2)
     pago_total = round(pago_cuotas * cuotas,2)
@@ -59,7 +50,6 @@ def modificar_prestamo():
    separador()
    
    id = pedir_datos('Ingrese el Id del prestamo que desea modificar: ')
-   id = validar_entero(id)
    separador()
 
    if id is None:
@@ -94,7 +84,7 @@ def modificar_prestamo():
                             prestamo ['Nombre'] = nombre
                     if op ==2:
                         monto = pedir_datos(f'Ingrese el nuevo monto ({prestamo['Monto']:,.2f}) : ')
-                        monto = validar_monto(monto)
+                        monto = validar_flotante(monto)
                         if monto:
                             prestamo ['Monto'] = monto        
                     if op == 3:
@@ -108,7 +98,7 @@ def modificar_prestamo():
                             prestamo ['Estado'] = estado 
                     if op == 5:
                         interes = pedir_datos(f'Ingrese el nuevo interes ({prestamo['Interes']}%): ')
-                        interes = validar_monto(interes)
+                        interes = validar_flotante(interes)
                         if interes:
                             prestamo ['Interes'] = interes
                     if op == 6:
@@ -261,9 +251,9 @@ def consultar_prestamo():
         print('4.🔙 Regresar al menu principal')
         separador()
 
-        opcion = pedir_datos('Ingrese la opcion deseada: ')
+        op = validar_entero('Ingrese la opcion deseada: ')
         # Verificar que op sea un numero
-        op = validar_entero(opcion)
+       
         
         match op:
             case 1:
