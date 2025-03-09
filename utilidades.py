@@ -3,6 +3,7 @@ import random
 import string
 from datetime import datetime
 import persistencia as ps
+import re
 
 
 def limpiar_pantalla():
@@ -23,44 +24,44 @@ def generador_id_unico():
         return id
 
 #Validar que la entrada sea un numero entero
-def validar_entero(entero):
-    try:
-        num = int(entero)
-        return num
-    except ValueError:
-        print("Entrada invalida: Ingrese un numero ")
-        pausar()
-    return None
-
-#Validar que la entrada sea un numero flotante
-def validar_monto(monto):
+def validar_entero(mensaje):
     while True:
+        entero = input(mensaje)
         try:
-            num = float(monto)            
+            num = int(entero)
             return num
         except ValueError:
-            print("Entrada invalida: Ingrese un valor numerico")  
-            pausar()
-            separador()
-            monto = pedir_datos('Ingrese el monto nuevamente: ')
+            print("❌ Entrada invalida: Ingrese un numero ")
+           
 
-
-#Validar que la entrada no este vacia
-def pedir_datos(mensaje):
+#Validar que la entrada sea un numero flotante
+def validar_flotante(mensaje):
     while True:
         entrada = input(mensaje)
-        if entrada.strip():
-            return entrada
-        else:
-            print("La entrada no puede estar vacia, intentelo nuevamente")
-
+        try:
+            num = float(entrada)            
+            return num
+        except ValueError:
+            print(" ❌ Entrada invalida: Ingrese un valor numerico")  
+            
 #Validar que la fecha sea valida       
-def validar_fecha(fecha):
+def validar_fecha(mensaje):
     while True:
+        fecha = input(mensaje)
         try:
             fecha = datetime.strptime(fecha, '%d/%m/%Y').strftime('%d/%m/%Y')
             return str(fecha)
         except ValueError:
-            print("Entrada invalida: Ingrese una fecha valida (dd/mm/yyyy)")
+            print("❌  Entrada invalida: Ingrese una fecha valida (dd/mm/yyyy)")
             separador()
-            fecha = pedir_datos("Ingrese la fecha nuevamente: ")
+
+#Validar que la entrada sea solo de letras 
+def validar_letras(mensaje):
+    while True:
+        entrada = input(mensaje)
+        if re.match(r"^[a-zA-Z\s]+$", entrada):
+            return entrada
+        else:
+            print('❌  Entrada invalida: Ingrese solo letras y espacios')
+
+
