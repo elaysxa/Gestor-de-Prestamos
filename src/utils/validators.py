@@ -1,6 +1,6 @@
-from src.utils import separador
+from datetime import datetime
 import re
-import datetime
+from utils.utilidades import separador
 #Validar que la entrada sea un numero entero
 def validar_entero(mensaje):
     while True:
