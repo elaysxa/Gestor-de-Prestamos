@@ -81,6 +81,13 @@ def modificar_prestamo():
                          prestamo ['Nombre'] = nombre
                 if op ==2:
                     monto = validar_flotante(f'Ingrese el nuevo monto ({prestamo['Monto']:,.2f}) : ')
+                    if monto:
+                            prestamo['Monto'] = monto
+                            interes_mensual = (prestamo['Interes'] / 100) / 12
+                            pago_cuotas = round((prestamo['Monto'] * interes_mensual) / (1 - (1 + interes_mensual) ** -prestamo['Cuotas']), 2)
+                            pago_total = round(pago_cuotas * prestamo['Cuotas'], 2)
+                            prestamo['Pago Mensual'] = pago_cuotas
+                            prestamo['Pago Total'] = pago_total
                    
                     if monto:
                             prestamo ['Monto'] = monto        
@@ -103,19 +110,12 @@ def modificar_prestamo():
                     if cuotas:
                         prestamo ['Cuotas'] = cuotas
                     
-    
-                    interes_mensual = (prestamo['Interes'] / 100) / 12
-                    pago_cuotas = round((prestamo['Monto'] * interes_mensual) / (1 - (1 + interes_mensual) ** -prestamo['Cuotas']), 2)
-                    pago_total = round(pago_cuotas * prestamo['Cuotas'], 2)
-                    prestamo['Pago Mensual'] = pago_cuotas
-                    prestamo['Pago Total'] = pago_total
-    
                 if op == 7:
                         
                     modificar_prestamos(id, prestamo['Nombre'], prestamo['Monto'], prestamo['Fecha'], prestamo['Estado'], prestamo['Interes'], prestamo['Cuotas'], prestamo['Pago Total'])
                     limpiar_pantalla()
                     separador()
-                    print('     PRESTAMO MODIFICADO EXITOSAMENTE     ')
+
                     separador()
                     mostrar_prestamo_info(id)
                     break

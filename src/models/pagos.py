@@ -1,6 +1,6 @@
 from utils.utilidades import limpiar_pantalla, separador, pausar
 from utils.validators import validar_entero, validar_flotante
-from database.persistencia  import datos, guardar_datos, guardar_prestamo
+from database.persistencia  import datos, guardar_datos
 from models.gestion_prestamos import mostrar_prestamo_info
 from datetime import datetime
 
