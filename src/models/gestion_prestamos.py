@@ -1,5 +1,6 @@
-from utilidades import limpiar_pantalla, separador, generador_id_unico, pausar, validar_entero, validar_flotante, validar_fecha, validar_letras
-import persistencia as ps
+from utils.utilidades import limpiar_pantalla, separador, generador_id_unico, pausar
+from utils.validators import validar_entero, validar_flotante, validar_fecha, validar_letras
+from database.persistencia import guardar_prestamo, guardar_datos, modificar_prestamos, datos
 
 
 def agregar_prestamo():
@@ -35,7 +36,7 @@ def agregar_prestamo():
         'Pago Total': pago_total
     }
     #Guardarlos en el json
-    ps.guardar_prestamo(prestamo)
+    guardar_prestamo(prestamo)
     limpiar_pantalla()
     separador()
     print('     🧾 COMPROBANTE DE PRESTAMO      ')
@@ -53,7 +54,7 @@ def modificar_prestamo():
    separador()
 
    prestamo_encontrado = False
-   for prestamo in ps.datos():
+   for prestamo in datos():
         if prestamo['Id'] == id:
             prestamo_encontrado = True
             mostrar_prestamo_info(id)
@@ -80,6 +81,13 @@ def modificar_prestamo():
                          prestamo ['Nombre'] = nombre
                 if op ==2:
                     monto = validar_flotante(f'Ingrese el nuevo monto ({prestamo['Monto']:,.2f}) : ')
+                    if monto:
+                            prestamo['Monto'] = monto
+                            interes_mensual = (prestamo['Interes'] / 100) / 12
+                            pago_cuotas = round((prestamo['Monto'] * interes_mensual) / (1 - (1 + interes_mensual) ** -prestamo['Cuotas']), 2)
+                            pago_total = round(pago_cuotas * prestamo['Cuotas'], 2)
+                            prestamo['Pago Mensual'] = pago_cuotas
+                            prestamo['Pago Total'] = pago_total
                    
                     if monto:
                             prestamo ['Monto'] = monto        
@@ -102,19 +110,12 @@ def modificar_prestamo():
                     if cuotas:
                         prestamo ['Cuotas'] = cuotas
                     
-    
-                    interes_mensual = (prestamo['Interes'] / 100) / 12
-                    pago_cuotas = round((prestamo['Monto'] * interes_mensual) / (1 - (1 + interes_mensual) ** -prestamo['Cuotas']), 2)
-                    pago_total = round(pago_cuotas * prestamo['Cuotas'], 2)
-                    prestamo['Pago Mensual'] = pago_cuotas
-                    prestamo['Pago Total'] = pago_total
-    
                 if op == 7:
                         
-                    ps.modificar_prestamos(id, prestamo['Nombre'], prestamo['Monto'], prestamo['Fecha'], prestamo['Estado'], prestamo['Interes'], prestamo['Cuotas'], prestamo['Pago Total'])
+                    modificar_prestamos(id, prestamo['Nombre'], prestamo['Monto'], prestamo['Fecha'], prestamo['Estado'], prestamo['Interes'], prestamo['Cuotas'], prestamo['Pago Total'])
                     limpiar_pantalla()
                     separador()
-                    print('     PRESTAMO MODIFICADO EXITOSAMENTE     ')
+
                     separador()
                     mostrar_prestamo_info(id)
                     break
@@ -123,7 +124,7 @@ def modificar_prestamo():
             pausar()
                                        
 def mostrar_prestamo_info(id):
-    for prestamo in ps.datos():
+    for prestamo in datos():
         if prestamo['Id'] == id:
             print(f" 🆔 Préstamo ID:    {prestamo['Id']}")
             print(f" 👤 A nombre de:    {prestamo['Nombre']}")
@@ -147,12 +148,12 @@ def eliminar_prestamo():
     separador()
     mostrar_prestamo_info(id)
     prestamo_encontrado = False
-    for prestamo in ps.datos():
+    for prestamo in datos():
         if prestamo['Id'] == id:
             prestamo_encontrado = True
             confirmacion = input(f"❓ Esta seguro de que quiere borrar el prestamo con el identificador {prestamo['Id']} Presione (S) para confirmar: ")
             if confirmacion.lower() == 's':
-                ps.datos().remove(prestamo)
+                datos().remove(prestamo)
                 separador()
                 print(' ✅ Prestamo eliminado con exito')
                 separador()
@@ -164,14 +165,14 @@ def eliminar_prestamo():
             print('⚠️  No existe ningun prestamo con este identificador')
             pausar()
 
-    ps.guardar_datos()
+    guardar_datos()
 
 def listar_prestamos():
     limpiar_pantalla()
     separador()
     print("     📃 LISTA DE PRESTAMOS      ")
     separador()
-    for prestamo in ps.datos():
+    for prestamo in datos():
             print(f" 🆔 Préstamo ID:    {prestamo['Id']}")
             print(f" 👤 A nombre de:    {prestamo['Nombre']}")
             print(f" 💲 Monto:          RD$ {prestamo['Monto']:,.2f}")
@@ -194,7 +195,7 @@ def buscar_prestamo_id():
     separador()
 
     prestamo_encontrado = False
-    for prestamo in ps.datos():
+    for prestamo in datos():
         if prestamo['Id'] == id :
             prestamo_encontrado = True
             mostrar_prestamo_info(id)
@@ -210,7 +211,7 @@ def buscar_prestamo_nombre():
     nombre = validar_letras('Ingrese el nombre del prestatario: ').upper()
     separador()
     prestamo_encontrado = False
-    for prestamo in ps.datos():
+    for prestamo in datos():
         if prestamo['Nombre'] == nombre:
             prestamo_encontrado = True
             print(f" 🆔 Préstamo ID:    {prestamo['Id']}")

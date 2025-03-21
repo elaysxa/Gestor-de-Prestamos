@@ -1,6 +1,7 @@
-from utilidades import limpiar_pantalla, separador, pausar, validar_entero, validar_flotante
-import persistencia as ps
-from gestion_prestamos import mostrar_prestamo_info
+from utils.utilidades import limpiar_pantalla, separador, pausar
+from utils.validators import validar_entero, validar_flotante
+from database.persistencia  import datos, guardar_datos
+from models.gestion_prestamos import mostrar_prestamo_info
 from datetime import datetime
 
 def pagos():
@@ -37,7 +38,7 @@ def informe_pago():
     id = validar_entero('Ingrese el id del prestatario para ver informe de pagos : ')
     
     separador()
-    for prestamo in ps.datos():
+    for prestamo in datos():
         if prestamo['Id'] == id:
             total_pagado = sum(p['Monto'] for p in prestamo.get('Pagos', []))
             saldo_pendiente = prestamo['Pago Total'] - total_pagado
@@ -55,7 +56,7 @@ def informe_pago():
 
 
 def comprobante_pago(id, pago):
-    for prestamo in ps.datos ():
+    for prestamo in datos ():
         if prestamo['Id'] == id:
             separador()
             print('     🧾 COMPROBANTE DE PAGO     ')
@@ -76,10 +77,9 @@ def consultar_pago():
    separador()
    id = validar_entero(' 🆔 Ingrese el ID del prestamo: ')
    
-   prestamo_encontrado = False
-   for prestamo in ps.datos ():
+   
+   for prestamo in datos ():
         if prestamo['Id'] == id:
-            prestamo_encontrado = True
             limpiar_pantalla()
             print(f"{'👤 Nombre:':>40}\t{prestamo["Nombre"]}")
             print(f"{'💲 Monto:':>40}\t{prestamo["Monto"]:,.2f}")
@@ -89,16 +89,18 @@ def consultar_pago():
             print('-'*65)
             print(f"{'Cuota No':<10}  {'Monto':<15}{'Fecha':<15} {'Pago Faltante':<15}")
             print('-'*65)
-            if 'Pagos' not in prestamo or len(prestamo['Pagos']) == 0:
-                print(' ❌ No hay pagos registrados para este prestamo') 
-            else:   
+            if 'Pagos' in prestamo:
                 for pago in prestamo['Pagos']:
                     print(f"   {pago['Cuota No']:<7}  {pago['Monto']:<15,.2f}{pago['Fecha']:<15} {pago['Pago Faltante']:<15,.2f}")
                 print('-'*65)
-            pausar()
-   if not prestamo_encontrado:
-        print(' ❌ No se encontro un prestamo con ese ID')
-        pausar()
+                pausar()
+           
+            if 'Pagos' not in prestamo or len(prestamo) ==0: 
+                print(' ❌ No hay pagos registrados para este prestamo\n')
+                pausar()
+        else:
+            print('❌ No hay prestamos con ese ID')
+            
                 
 def eliminar_pago():
      limpiar_pantalla()
@@ -108,7 +110,7 @@ def eliminar_pago():
      id = validar_entero('🆔 Ingrese el ID del prestamo: ')
      
      limpiar_pantalla()
-     for prestamo in ps.datos():
+     for prestamo in datos():
         if prestamo['Id'] == id:
             if 'Pagos' in prestamo:
                 separador()
@@ -145,7 +147,7 @@ def eliminar_pago():
 
 
                         prestamo['Estado'] = 'ACTIVO'
-                        ps.guardar_datos()
+                        guardar_datos()
                         separador()
                         print(f' ✅ Pago de {monto:,.2f} eliminado con exito. Nuevo saldo: {prestamo["Pago Total"]:,.2f}')
                         separador()
@@ -169,7 +171,7 @@ def registrar_pago():
     id = validar_entero('Ingrese el ID del prestamo: ')
     
     prestamo_encontrado = False
-    for prestamo in ps.datos():
+    for prestamo in datos():
         #Crear la lista de pagos si no existe
 
         if prestamo['Id'] == id:
@@ -202,7 +204,7 @@ def registrar_pago():
             if pago_faltante == 0:
                 prestamo['Estado'] = 'PAGADO'
 
-            ps.guardar_datos()
+            guardar_datos()
             limpiar_pantalla()
             print(f"✅ Pago de {monto:,.2f} registrado. Saldo restante: {pago['Pago Faltante']:,.2f}")
             comprobante_pago(id, pago) 
