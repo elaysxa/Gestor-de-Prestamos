@@ -115,7 +115,7 @@ def modificar_prestamo():
                     modificar_prestamos(id, prestamo['Nombre'], prestamo['Monto'], prestamo['Fecha'], prestamo['Estado'], prestamo['Interes'], prestamo['Cuotas'], prestamo['Pago Total'])
                     limpiar_pantalla()
                     separador()
-
+                    print('   ✅     PRESTAMO MODIFICADO CORRECTAMENTE')
                     separador()
                     mostrar_prestamo_info(id)
                     break
@@ -224,7 +224,7 @@ def buscar_prestamo_nombre():
             print(f" 💳 Pago mensual:   RD$ {prestamo['Pago Mensual']:,.2f}")
             print(f" 💵 Pago Total:     RD$ {prestamo['Pago Total']:,.2f}")
             separador()
-    pausar() 
+        pausar() 
 
     if not prestamo_encontrado:
         print('❌ Prestamo no encontrado ')
