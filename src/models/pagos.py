@@ -77,10 +77,9 @@ def consultar_pago():
    separador()
    id = validar_entero(' 🆔 Ingrese el ID del prestamo: ')
    
-   prestamo_encontrado = False
+   
    for prestamo in datos ():
         if prestamo['Id'] == id:
-            prestamo_encontrado = True
             limpiar_pantalla()
             print(f"{'👤 Nombre:':>40}\t{prestamo["Nombre"]}")
             print(f"{'💲 Monto:':>40}\t{prestamo["Monto"]:,.2f}")
@@ -90,16 +89,18 @@ def consultar_pago():
             print('-'*65)
             print(f"{'Cuota No':<10}  {'Monto':<15}{'Fecha':<15} {'Pago Faltante':<15}")
             print('-'*65)
-            if 'Pagos' not in prestamo or len(prestamo['Pagos']) == 0:
-                print(' ❌ No hay pagos registrados para este prestamo') 
-            else:   
+            if 'Pagos' in prestamo:
                 for pago in prestamo['Pagos']:
                     print(f"   {pago['Cuota No']:<7}  {pago['Monto']:<15,.2f}{pago['Fecha']:<15} {pago['Pago Faltante']:<15,.2f}")
                 print('-'*65)
-            pausar()
-   if not prestamo_encontrado:
-        print(' ❌ No se encontro un prestamo con ese ID')
-        pausar()
+                pausar()
+           
+            if 'Pagos' not in prestamo or len(prestamo) ==0: 
+                print(' ❌ No hay pagos registrados para este prestamo\n')
+                pausar()
+        else:
+            print('❌ No hay prestamos con ese ID')
+            
                 
 def eliminar_pago():
      limpiar_pantalla()
