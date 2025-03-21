@@ -1,5 +1,6 @@
-from src.utils.utilidades import limpiar_pantalla, separador, validar_entero
-from models.gestion_prestamos import agregar_prestamo, modificar_prestamo, consultar_prestamo, eliminar_prestamo, consultar_prestamo
+from utils.utilidades import limpiar_pantalla, separador
+from utils.validators import validar_entero
+from models.gestion_prestamos import agregar_prestamo, modificar_prestamo, consultar_prestamo, eliminar_prestamo
 from models.pagos import pagos
 
 def menu_principal():

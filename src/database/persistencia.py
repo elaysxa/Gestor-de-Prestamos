@@ -24,10 +24,11 @@ def modificar_prestamos(id, nombre, monto, fecha, estado, interes, cuotas, pago_
             prestamo['Cuotas'] = cuotas
             prestamo['Pago Total'] = pago_total
             guardar_datos()
+    return '     PRESTAMO MODIFICADO EXITOSAMENTE     '
 
 def guardar_datos():
     try:
-        with open('data/prestamos.json', 'w' ,encoding='utf-8') as archivo:
+        with open('src/database/prestamos.json', 'w' ,encoding='utf-8') as archivo:
             json.dump(prestamos, archivo, ensure_ascii=False, indent=4)
     except Exception as e:
         print(f'Error al guardar los datos{e}')
@@ -35,7 +36,7 @@ def guardar_datos():
 def cargar_datos():
     global prestamos
     try:
-        with open("data/prestamos.json", 'r', encoding='utf-8') as archivo:
+        with open("src/database/prestamos.json", 'r', encoding='utf-8') as archivo:
             prestamos = json.load(archivo)
     except FileNotFoundError:
         # Crear un archivo vacío si no existe
