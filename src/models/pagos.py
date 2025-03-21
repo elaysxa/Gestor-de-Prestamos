@@ -77,9 +77,10 @@ def consultar_pago():
    separador()
    id = validar_entero(' 🆔 Ingrese el ID del prestamo: ')
    
-   
+   prestamo_encontrado = False
    for prestamo in datos ():
         if prestamo['Id'] == id:
+            prestamo_encontrado = True
             limpiar_pantalla()
             print(f"{'👤 Nombre:':>40}\t{prestamo["Nombre"]}")
             print(f"{'💲 Monto:':>40}\t{prestamo["Monto"]:,.2f}")
@@ -89,17 +90,18 @@ def consultar_pago():
             print('-'*65)
             print(f"{'Cuota No':<10}  {'Monto':<15}{'Fecha':<15} {'Pago Faltante':<15}")
             print('-'*65)
+            if 'Pagos' not in prestamo or len(prestamo['Pagos']) == 0: 
+                print(' ❌ No hay pagos registrados para este prestamo')
+                           
             if 'Pagos' in prestamo:
                 for pago in prestamo['Pagos']:
                     print(f"   {pago['Cuota No']:<7}  {pago['Monto']:<15,.2f}{pago['Fecha']:<15} {pago['Pago Faltante']:<15,.2f}")
-                print('-'*65)
-                pausar()
+            print('-'*65)
+            pausar()
            
-            if 'Pagos' not in prestamo or len(prestamo) ==0: 
-                print(' ❌ No hay pagos registrados para este prestamo\n')
-                pausar()
-        else:
-            print('❌ No hay prestamos con ese ID')
+   if not prestamo_encontrado:
+        print('❌ No hay prestamos con ese ID')
+        pausar()
             
                 
 def eliminar_pago():
@@ -110,26 +112,31 @@ def eliminar_pago():
      id = validar_entero('🆔 Ingrese el ID del prestamo: ')
      
      limpiar_pantalla()
+     prestamo_encontrado = False
      for prestamo in datos():
         if prestamo['Id'] == id:
+            prestamo_encontrado = True
+            separador()
+            print(f"👤 Prestatario:     {prestamo['Nombre']}")
+            print(f"💰 Monto:           {prestamo['Monto']:,.2f}")
+            print(f"📊 Interes:         {prestamo['Interes']}%")
+            print(f"📆 Cuotas:          {prestamo['Cuotas']}")
+            separador()
+            print('     LISTA DE PAGOS     ')   
+            separador()
+            print(f"{'No Pago':<7}   {'Monto':<15}{'Fecha':<15}")
+            separador()
+            if 'Pagos' not in prestamo or len(prestamo['Pagos']) == 0:
+                print('❌  No hay pagos registrados para este prestamo')
+                pausar()
+                break
             if 'Pagos' in prestamo:
-                separador()
-                print(f"👤 Prestatario:     {prestamo['Nombre']}")
-                print(f"💰 Monto:           {prestamo['Monto']:,.2f}")
-                print(f"📊 Interes:         {prestamo['Interes']}%")
-                print(f"📆 Cuotas:          {prestamo['Cuotas']}")
-                separador()
-                print('     LISTA DE PAGOS     ')   
-                separador()
-                print(f"{'No Pago':<7}   {'Monto':<15}{'Fecha':<15}")
-                separador()
                 for i, pago in enumerate (prestamo['Pagos']):  
-                    
                     print(f"{i+1:<7}   {pago['Monto']:<15,.2f}{pago['Fecha']:<15} ")
 
                 separador()
                 indice = validar_entero('Ingrese el numero del pago que desea eliminar: ')
-
+                
                 if 0 < indice <= len(prestamo['Pagos']):
                     pago = prestamo['Pagos'][indice - 1]
                     confirmacion = input(f"Esta seguro de que quiere borrar este pago de {pago['Monto']:,.2f}? (S/N): ")
@@ -145,11 +152,15 @@ def eliminar_pago():
                             total_pagado += pago['Monto']
                             pago['Pago Faltante'] = prestamo['Pago Total'] - total_pagado
 
-
+                        #Cambiar el estado a activo
                         prestamo['Estado'] = 'ACTIVO'
                         guardar_datos()
                         separador()
-                        print(f' ✅ Pago de {monto:,.2f} eliminado con exito. Nuevo saldo: {prestamo["Pago Total"]:,.2f}')
+                        #Sumar los pagos de Pagos
+                        total_pagado = sum(p['Monto'] for p in prestamo['Pagos'])
+                        #Restar el pago total a pagar del total pagado
+                        pago_faltante = prestamo['Pago Total'] - total_pagado
+                        print(f' ✅ Pago de {monto:,.2f} eliminado con exito. Nuevo saldo: {pago_faltante:,.2f}')
                         separador()
                         mostrar_prestamo_info(id)
                         break
@@ -160,8 +171,9 @@ def eliminar_pago():
                 else:
                     print(' ⚠️ Indice invalido')
                     pausar()
-        else:
-            print('❌  No hay pagos registrados para este prestamo')
+     if not prestamo_encontrado:
+         print('❌ No hay prestamos con ese ID')
+         pausar()
 
 def registrar_pago():
     limpiar_pantalla()
